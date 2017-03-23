@@ -54,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         //RecyclerView设置
         recyclerView = (RecyclerView) findViewById(R.id.weather_horizontal);
+        // LayoutManager用于指定RecyclerView的布局方式
+        // 这里使用的LinearLayoutManager是线性布局的意思，可以实现和listView一样的效果
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        // 实现横向滚动
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -183,9 +186,12 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 0:
                     List<String> list = (List) msg.obj;
-
-                    if (list.get(0).equals("查询结果为空")) {
+                    // 当前输入的城市有误时提示重新输入
+                    if (list.get(0).contains("查询结果为空")) {
                         Toast.makeText(MainActivity.this, "当前城市不存在，请重新输入", Toast.LENGTH_SHORT).show();
+                        // 输入有误时自动清除，重新输入
+                        EditText input = (EditText) findViewById(R.id.input);
+                        input.setText("");
                         break;
                     }
                     TextView city_name = (TextView) findViewById(R.id.city_name);
